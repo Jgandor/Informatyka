@@ -1,15 +1,15 @@
 def sprawdz(a, b, c):
-    return a + b >= c and b + c >= a and a +  c >= b
+    return a + b >= c and b + c >= a and a + c >= b
 
 
 def sprawdz2(a, b, c):
-    if (a+b <= c):
+    if a + b <= c:
         return False
-    if (b+c <= a):
+    if b + c <= a:
         return False
-    if (a+c <= b):
+    if a + c <= b:
         return False
-    return true
+    return True
 
 
 a = int(input("Podaj bok a: "))
