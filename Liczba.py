@@ -15,9 +15,9 @@ while True:
     start = time.time()
     z = int(input(f"ile to {x} razy {y}? "))
     if z == 0:
-        q = int(input("Twój wynik to:", s "Punktów. Aby zakończyć wcisnij 0"))
-        if q == 0:
-            exit()
+        print("Twój wynik to:", s, "punktów")
+        time.sleep(5)
+        exit()
     end = time.time()
     if x * y == z:
         s = s + 2
@@ -31,3 +31,4 @@ while True:
         if end - start > args.limit:
             s = s - 1
             print(f"i za długo ({end-start:.2f} sekund)")
+    print("Masz", s, "punktów")
