@@ -13,7 +13,7 @@ while True:
     x = random.randint(2, 9)
     y = random.randint(2, 9)
     start = time.time()
-    z = int(input(f"ile to {x} razy {y}? "))
+    z = int(input(f"{x} x {y} = ? "))
     if z == 0:
         print("Twój wynik to:", s, "punktów")
         time.sleep(3)
@@ -34,5 +34,8 @@ while True:
         while z != x * y:
             z = int(input("Spróbuj jeszcze raz: "))
         print("Dobrze")
-    print("Masz", s, "punktów, przygotuj się.")
-    time.sleep(2)
+    print("Masz", s, "punktów, przygotuj się", end=' ', flush=True)
+    for i in range(3):
+        print('.', end=' ', flush=True)
+        time.sleep(1)
+    print()
