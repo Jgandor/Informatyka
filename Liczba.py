@@ -1,24 +1,40 @@
+import argparse
+import datetime
 import random
 import time
-import argparse
+
+
+def podaj_wynik(s: int, czekaj: bool = True):
+    print("Masz", s, "punktów", end="")
+    if czekaj:
+        print(", przygotuj się", end=" ", flush=True)
+        for i in range(3):
+            print(".", end=" ", flush=True)
+            time.sleep(1)
+    print()
+
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
     "--limit", "-l", type=float, help="Limit czasu odpowiedzi", default=10
 )
+parser.add_argument("--czas", "-c", type=float, help="Limit czasu gry")
 args = parser.parse_args()
+
 print("Hint: 0 to quit")
+begin = datetime.datetime.now()
 s = 0
+
 while True:
     x = random.randint(2, 9)
     y = random.randint(2, 9)
+
     start = time.time()
     z = int(input(f"{x} x {y} = ? "))
     if z == 0:
-        print("Twój wynik to:", s, "punktów")
-        time.sleep(3)
-        exit()
+        break
     end = time.time()
+
     if x * y == z:
         s = s + 2
         print("dobrze")
@@ -34,8 +50,9 @@ while True:
         while z != x * y:
             z = int(input("Spróbuj jeszcze raz: "))
         print("Dobrze")
-    print("Masz", s, "punktów, przygotuj się", end=' ', flush=True)
-    for i in range(3):
-        print('.', end=' ', flush=True)
-        time.sleep(1)
-    print()
+    podaj_wynik(s, args.czas is None)
+    if args.czas is not None and datetime.datetime.now() > begin + datetime.timedelta(seconds = args.czas):
+        break
+
+print("Twój wynik to:", s, "punktów w czasie", datetime.datetime.now() - begin)
+time.sleep(1)
