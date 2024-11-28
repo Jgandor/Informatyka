@@ -19,11 +19,13 @@ parser.add_argument(
     "--limit", "-l", type=float, help="Limit czasu odpowiedzi", default=10
 )
 parser.add_argument("--czas", "-c", type=float, help="Limit czasu gry")
+parser.add_argument("--goal", "-g", type=int, help="Cel punktów")
 args = parser.parse_args()
 
 print("Hint: 0 to quit")
 begin = datetime.datetime.now()
-s = 0
+score = 0
+goal = args.goal
 
 while True:
     x = random.randint(2, 9)
@@ -36,23 +38,29 @@ while True:
     end = time.time()
 
     if x * y == z:
-        s = s + 2
+        score = score + 2
         print("dobrze")
         if end - start > args.limit:
-            s = s - 1
+            score = score - 1
             print(f"ale za długo ({end-start:.2f} sekund)")
     else:
-        s = s - 1
+        score = score - 1
         print(f"źle, powinno być", x * y)
         if end - start > args.limit:
-            s = s - 1
+            score = score - 1
             print(f"i za długo ({end-start:.2f} sekund)")
         while z != x * y:
             z = int(input("Spróbuj jeszcze raz: "))
         print("Dobrze")
-    podaj_wynik(s, args.czas is None)
-    if args.czas is not None and datetime.datetime.now() > begin + datetime.timedelta(seconds = args.czas):
+    if args.czas is not None and datetime.datetime.now() > begin + datetime.timedelta(
+        seconds=args.czas
+    ):
+        print("Czas minał")
         break
+    if args.goal is not None and score >= goal:
+        print("Cel punktów został osiągniety")
+        break
+    podaj_wynik(score, args.czas is None)
 
-print("Twój wynik to:", s, "punktów w czasie", datetime.datetime.now() - begin)
+print("Twój wynik to:", score, "punktów w czasie", datetime.datetime.now() - begin)
 time.sleep(1)
