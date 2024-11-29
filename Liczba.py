@@ -10,7 +10,7 @@ def pobierz(pytanie=""):
             z = int(input(pytanie))
             return z
         except ValueError:
-            print("Błąd odczytu, spróbuj jescze raz")
+            print("Błąd odczytu, spróbuj jeszcze raz")
 
 
 def podaj_wynik(s: int, czekaj: bool = True):
@@ -24,11 +24,25 @@ def podaj_wynik(s: int, czekaj: bool = True):
 
 
 parser = argparse.ArgumentParser()
+
 parser.add_argument(
     "--limit", "-l", type=float, help="Limit czasu odpowiedzi", default=10
 )
 parser.add_argument("--czas", "-c", type=float, help="Limit czasu gry")
 parser.add_argument("--goal", "-g", type=int, help="Cel punktów")
+parser.add_argument(
+    "--minimum_x", "-mnx", type=int, help="Minimalna wartość liczby nr1", default=2
+)
+parser.add_argument(
+    "--minimum_y", "-mny", type=int, help="Minimalna wartość liczby nr2", default=2
+)
+parser.add_argument(
+    "-maximum_x", "-mxx", type=int, help="Maksymalna wartość liczby nr1", default=9
+)
+parser.add_argument(
+    "-maximum_y", "-mxy", type=int, help="Maksymalna wartość liczby nr2", default=9
+)
+
 args = parser.parse_args()
 
 print("Hint: 0 to quit")
@@ -37,8 +51,8 @@ score = 0
 goal = args.goal
 
 while True:
-    x = random.randint(2, 9)
-    y = random.randint(2, 9)
+    x = random.randint(args.minimum_x, args.maximum_x)
+    y = random.randint(args.minimum_y, args.maximum_y)
 
     start = time.time()
     z = pobierz(f"{x} x {y} = ")
