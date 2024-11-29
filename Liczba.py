@@ -1,7 +1,16 @@
 import argparse
-import datetime
 import random
 import time
+from datetime import datetime, timedelta
+
+
+def pobierz(pytanie=""):
+    while True:
+        try:
+            z = int(input(pytanie))
+            return z
+        except ValueError:
+            print("Błąd odczytu, spróbuj jescze raz")
 
 
 def podaj_wynik(s: int, czekaj: bool = True):
@@ -23,7 +32,7 @@ parser.add_argument("--goal", "-g", type=int, help="Cel punktów")
 args = parser.parse_args()
 
 print("Hint: 0 to quit")
-begin = datetime.datetime.now()
+begin = datetime.now()
 score = 0
 goal = args.goal
 
@@ -32,7 +41,8 @@ while True:
     y = random.randint(2, 9)
 
     start = time.time()
-    z = int(input(f"{x} x {y} = ? "))
+    z = pobierz(f"{x} x {y} = ")
+
     if z == 0:
         break
     end = time.time()
@@ -50,17 +60,18 @@ while True:
             score = score - 1
             print(f"i za długo ({end-start:.2f} sekund)")
         while z != x * y:
-            z = int(input("Spróbuj jeszcze raz: "))
-        print("Dobrze")
-    if args.czas is not None and datetime.datetime.now() > begin + datetime.timedelta(
-        seconds=args.czas
-    ):
+            z = pobierz(f"Spróbuj jeszcze raz: {x} x {y} = ")
+        print("OK")
+
+    if args.czas is not None and datetime.now() > begin + timedelta(seconds=args.czas):
         print("Czas minał")
         break
+
     if args.goal is not None and score >= goal:
         print("Cel punktów został osiągniety")
         break
+
     podaj_wynik(score, args.czas is None)
 
-print("Twój wynik to:", score, "punktów w czasie", datetime.datetime.now() - begin)
+print("Twój wynik to:", score, "punktów w czasie", datetime.now() - begin)
 time.sleep(1)
