@@ -48,6 +48,8 @@ args = parser.parse_args()
 print("Hint: 0 to quit")
 begin = datetime.now()
 score = 0
+net_time = 0
+think_time = 0
 goal = args.goal
 
 while True:
@@ -60,6 +62,8 @@ while True:
     if z == 0:
         break
     end = time.time()
+    think_time = end - start
+    net_time += think_time
 
     if x * y == z:
         score = score + 2
@@ -84,8 +88,9 @@ while True:
     if args.goal is not None and score >= goal:
         print("Cel punktów został osiągniety")
         break
-
+    
     podaj_wynik(score, args.czas is None)
 
-print("Twój wynik to:", score, "punktów w czasie", datetime.now() - begin)
+print("Twój wynik to:", score, "punktów w czasie", f"({net_time:.2f} sekund)")
+print("całkowity czas gry to:", datetime.now() - begin)
 time.sleep(1)
