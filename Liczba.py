@@ -51,6 +51,8 @@ score = 0
 net_time = 0
 think_time = 0
 goal = args.goal
+qnumber = 0
+qcorrect = 0
 
 while True:
     x = random.randint(args.minimum_x, args.maximum_x)
@@ -64,10 +66,12 @@ while True:
     end = time.time()
     think_time = end - start
     net_time += think_time
+    qnumber += 1
 
     if x * y == z:
         score = score + 2
         print("dobrze")
+        qcorrect += 1
         if end - start > args.limit:
             score = score - 1
             print(f"ale za długo ({end-start:.2f} sekund)")
@@ -90,7 +94,9 @@ while True:
         break
     
     podaj_wynik(score, args.czas is None)
+    grace = qcorrect / qnumber * 100
 
 print("Twój wynik to:", score, "punktów w czasie", f"({net_time:.2f} sekund)")
 print("całkowity czas gry to:", datetime.now() - begin)
+print(grace, "procent poprawności")
 time.sleep(1)
